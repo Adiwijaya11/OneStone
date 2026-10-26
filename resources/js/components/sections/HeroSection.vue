@@ -1,72 +1,165 @@
 <script setup>
-import { ArrowUpRight, MapPin } from '@lucide/vue';
+import { ref } from 'vue';
+import { Trophy, Car, MapPin, Clock, ArrowRight, Phone } from '@lucide/vue';
+
+// Tab pilihan foto showcase fasilitas nyata
+const activeTab = ref('futsal');
+
+const facilities = {
+  futsal: {
+    title: 'Lapangan Futsal Standar FIFA',
+    desc: 'Lantai rumput sintetis empuk berkualitas dengan pencahayaan LED terang dan jaring pengaman lengkap.',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1800&q=85',
+    tag: 'Fasilitas Futsal',
+    specs: ['Rumput sintetis terawat', 'Papan skor & tribun penonton', 'Sewa rompi & bola'],
+  },
+  carwash: {
+    title: 'Cuci Mobil Hidrolik & Detailing',
+    desc: 'Layanan lift hidrolik H-Track menjangkau bagian kolong mobil secara teliti dengan shampoo pH netral.',
+    image: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=1800&q=85',
+    tag: 'Fasilitas Carwash',
+    specs: ['Cuci kolong & bodi bersih', 'Vakum interior wangi', 'Cuci motor salju'],
+  },
+};
 </script>
 
 <template>
-  <section class="relative h-[100svh] min-h-[100svh] w-full flex flex-col justify-between items-center overflow-hidden bg-gray-100 select-none px-4 sm:px-6 pt-24 pb-8">
-    
-    <!-- Latar Belakang Gambar Fotografi Khusus ONE STONE (Futsal & Carwash di Bali) -->
-    <img
-      src="/images/hero-bg.jpg"
-      alt="ONE STONE Futsal Arena & Premium Auto Spa Bali"
-      class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-transform duration-1000 scale-[1.01]"
-    />
-
-    <!-- Lapisan Lembut (Memastikan Foto Tetap Sangat Nyata, Tajam & Cerah) -->
-    <div class="absolute inset-0 bg-black/10 pointer-events-none"></div>
-
-    <!-- Spacer Atas untuk Posisi Floating Navbar -->
-    <div class="relative z-10"></div>
-
-    <!-- Konten Utama: Modern, Minimalis, dengan Card Kaca Elegan (Menjaga Keterbacaan Sempurna) -->
-    <div class="relative z-10 max-w-2xl mx-auto w-full my-auto">
-      <div class="bg-white/85 hover:bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-9 md:p-10 border border-white/90 shadow-[0_12px_40px_rgba(0,0,0,0.1)] text-center space-y-5 transition-all duration-300">
+  <section class="min-h-[100svh] w-full bg-white text-gray-900 flex flex-col justify-center pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto w-full">
+      
+      <!-- Layout Asimetris Editorial 2 Kolom (Bukan Template Slop / Bukan Kotak Mengapung) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         
-        <!-- Label Kategori Minimalis -->
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100/90 border border-gray-200/80">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="text-[10px] sm:text-xs font-semibold tracking-widest text-gray-700 uppercase font-body">
-            ONE STONE • SEBATU, BALI
-          </span>
+        <!-- Kolom Kiri: Tipografi Kuat, Bersih & Kontras Tinggi -->
+        <div class="lg:col-span-6 space-y-6 sm:space-y-7">
+          
+          <!-- Identitas Lokasi -->
+          <div class="flex items-center gap-2 text-xs uppercase tracking-widest text-gray-500 font-semibold font-body">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span>Sebatu, Tegallalang, Gianyar - Bali</span>
+          </div>
+
+          <!-- Headline Utama (Font: Syne - Tegas & Berkarakter) -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-950 font-heading leading-[1.08] tracking-tight">
+            Arena Futsal & Perawatan Mobil Terpadu.
+          </h1>
+
+          <!-- Deskripsi Nyata (Font: Plus Jakarta Sans) -->
+          <p class="text-base sm:text-lg text-gray-600 font-body leading-relaxed max-w-lg">
+            Satu kawasan olahraga dan perawatan kendaraan di Jl. Raya Bilukan, Sebatu. Hadir dengan lapangan futsal berkualitas tinggi dan layanan cuci mobil hidrolik profesional.
+          </p>
+
+          <!-- Tombol Aksi Nyata (Tanpa Em Dash, Tanpa Style Alay) -->
+          <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <a
+              href="https://wa.me/6281234567890?text=Halo%20One%20Stone,%20saya%20ingin%20booking%20lapangan%20futsal"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center justify-center gap-2 bg-gray-950 hover:bg-black text-white text-sm font-semibold px-6 py-3.5 rounded-xl transition-all duration-150 active:scale-98 shadow-sm font-body"
+            >
+              <span>Booking via WhatsApp</span>
+              <ArrowRight class="w-4 h-4" />
+            </a>
+
+            <a
+              href="#features"
+              class="inline-flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-900 text-sm font-semibold px-6 py-3.5 rounded-xl transition-all duration-150 active:scale-98 font-body"
+            >
+              <span>Lihat Fasilitas & Harga</span>
+            </a>
+          </div>
+
+          <!-- Ringkasan Operasional 2 Baris Bersih -->
+          <div class="pt-4 border-t border-gray-100 grid grid-cols-2 gap-4 text-xs font-body text-gray-600">
+            <div class="space-y-1">
+              <span class="text-gray-400 block text-[11px] uppercase tracking-wider">Jam Operasional</span>
+              <span class="font-medium text-gray-900 flex items-center gap-1.5">
+                <Clock class="w-3.5 h-3.5 text-gray-700 shrink-0" />
+                08.00 - 23.00 WITA
+              </span>
+            </div>
+            <div class="space-y-1">
+              <span class="text-gray-400 block text-[11px] uppercase tracking-wider">Kontak Langsung</span>
+              <a href="tel:+62361972566" class="font-medium text-gray-900 hover:text-black flex items-center gap-1.5">
+                <Phone class="w-3.5 h-3.5 text-gray-700 shrink-0" />
+                (0361) 972566
+              </a>
+            </div>
+          </div>
         </div>
 
-        <!-- Heading Utama (Font: Syne - Bold & Distinctive) -->
-        <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-950 font-heading leading-[1.1]">
-          Futsal Arena & Cuci Mobil Modern.
-        </h1>
+        <!-- Kolom Kanan: Showcase Fotografi Nyata Fasilitas (Jernih, Tajam, Tanpa Kabut) -->
+        <div class="lg:col-span-6 space-y-4">
+          
+          <!-- Tab Selector Foto Nyata -->
+          <div class="flex items-center gap-2 p-1 bg-gray-100 rounded-xl w-fit">
+            <button
+              type="button"
+              @click="activeTab = 'futsal'"
+              :class="[
+                'px-4 py-2 rounded-lg text-xs font-semibold font-body transition-all flex items-center gap-2 cursor-pointer',
+                activeTab === 'futsal'
+                  ? 'bg-white text-gray-950 shadow-xs'
+                  : 'text-gray-600 hover:text-gray-900'
+              ]"
+            >
+              <Trophy class="w-3.5 h-3.5" />
+              <span>Lapangan Futsal</span>
+            </button>
 
-        <!-- Deskripsi (Font: Plus Jakarta Sans - Clean & Readable) -->
-        <p class="text-sm sm:text-base md:text-lg text-gray-700 font-body font-normal leading-relaxed max-w-lg mx-auto">
-          Fasilitas lapangan futsal berstandar kompetisi dan layanan cuci kendaraan hidrolik di kawasan sejuk Sebatu, Tegallalang.
-        </p>
+            <button
+              type="button"
+              @click="activeTab = 'carwash'"
+              :class="[
+                'px-4 py-2 rounded-lg text-xs font-semibold font-body transition-all flex items-center gap-2 cursor-pointer',
+                activeTab === 'carwash'
+                  ? 'bg-white text-gray-950 shadow-xs'
+                  : 'text-gray-600 hover:text-gray-900'
+              ]"
+            >
+              <Car class="w-3.5 h-3.5" />
+              <span>Cuci Mobil Hidrolik</span>
+            </button>
+          </div>
 
-        <!-- 2 Tombol Aksi Simpel & Elegan -->
-        <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href="#futsal"
-            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-semibold px-6 py-3 rounded-full transition-all duration-150 active:scale-95 shadow-sm font-body cursor-pointer min-h-[44px]"
-          >
-            <span>Booking Lapangan</span>
-            <ArrowUpRight class="w-4 h-4" />
-          </a>
+          <!-- Container Foto Nyata Beresolusi Tinggi -->
+          <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-gray-200 bg-gray-100 shadow-md">
+            <img
+              :key="activeTab"
+              :src="facilities[activeTab].image"
+              :alt="facilities[activeTab].title"
+              class="w-full h-full object-cover object-center transition-all duration-500"
+            />
+            
+            <!-- Label Tag di Pojok Foto -->
+            <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-xs px-3 py-1.5 rounded-lg text-xs font-bold text-gray-900 border border-gray-200/80 shadow-xs font-body">
+              {{ facilities[activeTab].tag }}
+            </div>
+          </div>
 
-          <a
-            href="#carwash"
-            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/90 hover:bg-white text-gray-900 text-xs sm:text-sm font-semibold px-6 py-3 rounded-full border border-gray-300 hover:border-gray-400 transition-all duration-150 active:scale-95 font-body cursor-pointer shadow-xs min-h-[44px]"
-          >
-            <span>Layanan Carwash</span>
-          </a>
+          <!-- Keterangan Spesifikasi di Bawah Foto -->
+          <div class="bg-gray-50 rounded-xl p-4 border border-gray-200/80 space-y-2">
+            <h3 class="text-sm font-bold text-gray-950 font-heading">
+              {{ facilities[activeTab].title }}
+            </h3>
+            <p class="text-xs text-gray-600 font-body leading-relaxed">
+              {{ facilities[activeTab].desc }}
+            </p>
+            <div class="pt-2 flex flex-wrap gap-2">
+              <span
+                v-for="(spec, sIdx) in facilities[activeTab].specs"
+                :key="sIdx"
+                class="inline-flex items-center text-[11px] font-medium text-gray-700 bg-white px-2.5 py-1 rounded-md border border-gray-200"
+              >
+                {{ spec }}
+              </span>
+            </div>
+          </div>
+
         </div>
-      </div>
-    </div>
 
-    <!-- Bagian Bawah: Informasi Lokasi & Jam Buka Minimalis -->
-    <div class="relative z-10 text-center">
-      <div class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-white/90 shadow-xs text-xs text-gray-700 font-body">
-        <MapPin class="w-3.5 h-3.5 text-gray-900 shrink-0" />
-        <span>Jl. Raya Bilukan, Sebatu, Tegallalang, Gianyar — Bali • Buka 08:00 – 23:00 WITA</span>
       </div>
-    </div>
 
+    </div>
   </section>
 </template>
