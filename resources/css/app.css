@@ -7,5 +7,15 @@
 
 @theme {
     --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Syne', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
+}
+
+h1, h2, h3, .font-heading {
+    font-family: var(--font-heading);
+}
+
+p, span, a, input, button, .font-body {
+    font-family: var(--font-body);
 }

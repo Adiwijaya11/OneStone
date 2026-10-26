@@ -39,7 +39,7 @@ const services = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section Header -->
       <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14 space-y-2.5 sm:space-y-3">
-        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 font-['Space_Grotesk']">
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-950 font-heading">
           Fasilitas Lengkap di Satu Tempat
         </h2>
         <p class="text-sm sm:text-base text-gray-600">

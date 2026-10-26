@@ -36,7 +36,7 @@ const navigation = {
               class="w-10 h-10 rounded-lg object-contain border border-gray-200 shadow-xs shrink-0"
             />
             <div>
-              <span class="text-xl font-bold tracking-tight text-gray-900 font-['Space_Grotesk'] block">
+              <span class="text-xl font-bold tracking-tight text-gray-950 font-heading block">
                 ONE STONE
               </span>
               <span class="text-xs text-gray-500 uppercase tracking-wider">Futsal & Carwash • Sebatu, Bali</span>
