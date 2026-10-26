@@ -17,7 +17,8 @@ import {
   Sparkles,
   Users,
   CircleDollarSign,
-  Info
+  Info,
+  Maximize2
 } from '@lucide/vue';
 
 // Filter status lapangan
@@ -38,54 +39,42 @@ const courts = [
   {
     id: 'court1',
     name: 'Lapangan 1 (Arena Utama)',
-    tag: 'Standar Kompetisi',
-    badgeClass: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20',
-    description: 'Arena utama dengan rumput sintetis monofilament tebal 50mm, jaring pengaman keliling 6 meter, serta tribun penonton. Pilihan utama untuk turnamen dan sparing bergengsi.',
+    shortName: 'Lapangan 1',
+    tag: 'Standar Turnamen',
+    size: '28 × 16 Meter',
+    surface: 'Monofilament 50mm',
+    shortDesc: 'Rumput sintetis tebal monofilament dengan tribun penonton dan penerangan kompetisi.',
     image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80',
     status: 'Tersedia',
-    specs: [
-      { label: 'Ukuran Lapangan', value: '28 x 16 Meter' },
-      { label: 'Jenis Permukaan', value: 'Monofilament Turf 50mm + Eco-Infill' },
-      { label: 'Penerangan', value: '8x LED Floodlight Stadium 400W' },
-      { label: 'Kapasitas Penonton', value: 'Tribun 50 Penonton + Player Bench' },
+    facilities: [
+      'Rumput Monofilament 50mm',
+      '8x LED Floodlight 400W',
+      'Papan Skor Digital & Tribun',
+      'Gratis Bola & 2 Set Rompi',
     ],
-    features: [
-      'Papan skor digital LED nirkabel',
-      'Gratis 2 set rompi tanding resmi',
-      'Gratis peminjaman 2 bola futsal standar FIFA',
-      'Area bench cadangan tertutup & nyaman',
-    ],
-    rates: [
-      { session: 'Pagi - Siang (08.00 - 15.00 WITA)', price: 'Rp 120.000', period: '/ jam' },
-      { session: 'Sore - Malam (15.00 - 23.00 WITA)', price: 'Rp 160.000', period: '/ jam' },
-    ],
-    whatsappText: 'Halo ONE STONE Sebatu, saya ingin booking Lapangan 1 (Arena Utama).',
+    priceDay: 'Rp 120.000',
+    priceNight: 'Rp 160.000',
+    whatsappUrl: 'https://wa.me/6281234567890?text=Halo%20ONE%20STONE%20Sebatu,%20saya%20ingin%20booking%20Lapangan%201%20(Arena%20Utama)',
   },
   {
     id: 'court2',
     name: 'Lapangan 2 (Arena Standar)',
+    shortName: 'Lapangan 2',
     tag: 'Sparing & Latihan',
-    badgeClass: 'bg-blue-500/10 text-blue-700 border-blue-500/20',
-    description: 'Lapangan rumput sintetis berstandar tinggi yang responsif dengan pantulan bola presisi. Ideal untuk latihan rutin komunitas, sparing pelajar, dan pertandingan persahabatan.',
+    size: '26 × 15 Meter',
+    surface: 'Synthetic Turf 45mm',
+    shortDesc: 'Rumput sintetis responsif berstandar tinggi untuk sparing tim dan latihan rutin.',
     image: 'https://images.unsplash.com/photo-1529900245534-47fbf82a4d33?auto=format&fit=crop&w=1000&q=80',
     status: 'Tersedia',
-    specs: [
-      { label: 'Ukuran Lapangan', value: '26 x 15 Meter' },
-      { label: 'Jenis Permukaan', value: 'High Density Synthetic Turf 45mm' },
-      { label: 'Penerangan', value: '6x LED Sports Lighting 300W' },
-      { label: 'Kapasitas Area', value: 'Bench Pemain Tim A & B' },
+    facilities: [
+      'Synthetic Turf 45mm',
+      '6x LED Sports Lighting',
+      'Bench Tim & Scoreboard',
+      'Gratis Bola & Rompi Tim',
     ],
-    features: [
-      'Jaring keliling setinggi 5 meter anti-pantul',
-      'Gratis peminjaman rompi tim',
-      'Gratis 2 bola futsal pertandingan',
-      'Stopwatch & papan skor manual',
-    ],
-    rates: [
-      { session: 'Pagi - Siang (08.00 - 15.00 WITA)', price: 'Rp 100.000', period: '/ jam' },
-      { session: 'Sore - Malam (15.00 - 23.00 WITA)', price: 'Rp 140.000', period: '/ jam' },
-    ],
-    whatsappText: 'Halo ONE STONE Sebatu, saya ingin booking Lapangan 2 (Arena Standar).',
+    priceDay: 'Rp 100.000',
+    priceNight: 'Rp 140.000',
+    whatsappUrl: 'https://wa.me/6281234567890?text=Halo%20ONE%20STONE%20Sebatu,%20saya%20ingin%20booking%20Lapangan%202%20(Arena%20Standar)',
   },
 ];
 
@@ -264,121 +253,118 @@ const rules = [
           </div>
         </div>
 
-        <!-- Court Cards Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Court Cards Grid (Desain Bersih, Ringkas & Elegan) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-7">
           <div
             v-for="court in filteredCourts"
             :key="court.id"
-            class="rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow duration-300"
+            class="group rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-xs hover:shadow-xl hover:border-gray-900 transition-all duration-300 flex flex-col justify-between"
           >
-            <!-- Image & Badge Header -->
-            <div class="relative h-60 sm:h-72 w-full overflow-hidden bg-gray-100">
+            <!-- Visual Header: Foto Berkualitas & Badge Spesifikasi -->
+            <div class="relative h-56 sm:h-64 w-full overflow-hidden bg-gray-950">
               <img
                 :src="court.image"
                 :alt="court.name"
-                class="w-full h-full object-cover"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-gray-950/20 to-transparent"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-gray-950/85 via-gray-950/25 to-transparent"></div>
               
-              <!-- Top Badges -->
+              <!-- Badges Atas: Status & Ukuran Lapangan -->
               <div class="absolute top-4 inset-x-4 flex items-center justify-between">
-                <span class="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-xs text-gray-900 text-xs font-bold px-3 py-1 rounded-full shadow-xs">
-                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span class="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-gray-950 text-xs font-bold px-3 py-1 rounded-full shadow-xs">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                   <span>{{ court.status }}</span>
                 </span>
 
-                <span class="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full bg-black/60 text-white backdrop-blur-xs">
-                  {{ court.tag }}
+                <!-- Ukuran Lapangan Highlight -->
+                <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-black/60 text-white backdrop-blur-md border border-white/20">
+                  <Maximize2 class="w-3.5 h-3.5 text-emerald-400" />
+                  <span>{{ court.size }}</span>
                 </span>
               </div>
 
-              <!-- Bottom Title Overlay -->
+              <!-- Title & Kategori di Atas Gambar -->
               <div class="absolute bottom-4 inset-x-4 text-white">
-                <h3 class="text-xl sm:text-2xl font-bold font-heading leading-tight drop-shadow-xs">
+                <div class="text-[11px] font-mono tracking-widest text-emerald-400 uppercase font-semibold">
+                  {{ court.tag }}
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold font-heading tracking-tight drop-shadow-xs">
                   {{ court.name }}
                 </h3>
               </div>
             </div>
 
-            <!-- Card Content Body -->
-            <div class="p-6 sm:p-7 space-y-6 flex-grow flex flex-col justify-between">
-              <div class="space-y-5">
-                <p class="text-sm text-gray-600 leading-relaxed font-body">
-                  {{ court.description }}
+            <!-- Card Body: Deskripsi Singkat, Fasilitas Inti, Tarif Sewa -->
+            <div class="p-6 sm:p-7 space-y-5 flex-grow flex flex-col justify-between">
+              <div class="space-y-4">
+                <!-- Deskripsi Ringkas (1 Kalimat, Tidak Bertele-tele) -->
+                <p class="text-xs sm:text-sm text-gray-600 font-body leading-relaxed">
+                  {{ court.shortDesc }}
                 </p>
 
-                <!-- Technical Specs Grid -->
-                <div class="grid grid-cols-2 gap-3 pt-2">
-                  <div
-                    v-for="(spec, sIdx) in court.specs"
-                    :key="sIdx"
-                    class="p-3 rounded-xl bg-gray-50 border border-gray-100 space-y-1"
-                  >
-                    <div class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
-                      {{ spec.label }}
-                    </div>
-                    <div class="text-xs sm:text-sm font-bold text-gray-900 font-heading">
-                      {{ spec.value }}
-                    </div>
+                <!-- Fasilitas Utama (4 Poin Bersih & Rapi) -->
+                <div class="space-y-2 pt-1">
+                  <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                    Fasilitas Lapangan
                   </div>
-                </div>
-
-                <!-- Included Amenities -->
-                <div class="space-y-2 pt-2">
-                  <div class="text-xs font-bold text-gray-900 uppercase tracking-wider">
-                    Fasilitas Termasuk
-                  </div>
-                  <ul class="space-y-1.5">
-                    <li
-                      v-for="(feat, fIdx) in court.features"
-                      :key="fIdx"
-                      class="flex items-center gap-2 text-xs sm:text-sm text-gray-700"
-                    >
-                      <CheckCircle2 class="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>{{ feat }}</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <!-- Pricing Box -->
-                <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200/80 space-y-2.5">
-                  <div class="text-xs font-bold text-gray-900 uppercase tracking-wider flex items-center justify-between">
-                    <span>Tarif Sewa Reguler</span>
-                    <span class="text-[11px] text-gray-500 lowercase font-normal">per sesi per jam</span>
-                  </div>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                  <div class="grid grid-cols-2 gap-2">
                     <div
-                      v-for="(rate, rIdx) in court.rates"
-                      :key="rIdx"
-                      class="bg-white p-3 rounded-xl border border-gray-200/80 flex flex-col justify-between"
+                      v-for="(item, idx) in court.facilities"
+                      :key="idx"
+                      class="flex items-center gap-2 p-2.5 rounded-xl bg-gray-50 border border-gray-100 text-xs font-medium text-gray-800"
                     >
-                      <span class="text-[11px] font-medium text-gray-500 leading-tight">
-                        {{ rate.session }}
-                      </span>
-                      <div class="pt-1 flex items-baseline gap-1">
-                        <span class="text-lg font-extrabold text-gray-950 font-heading">
-                          {{ rate.price }}
+                      <CheckCircle2 class="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <span class="truncate">{{ item }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tarif Sewa (Siang & Malam) -->
+                <div class="space-y-2 pt-1">
+                  <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                    Tarif Sewa Per Jam
+                  </div>
+                  <div class="grid grid-cols-2 gap-2.5">
+                    <!-- Siang -->
+                    <div class="p-3.5 rounded-2xl bg-gray-50 border border-gray-200/80">
+                      <div class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">
+                        Siang (08.00 - 15.00)
+                      </div>
+                      <div class="flex items-baseline gap-1 mt-1">
+                        <span class="text-lg sm:text-xl font-extrabold text-gray-950 font-heading">
+                          {{ court.priceDay }}
                         </span>
-                        <span class="text-[11px] text-gray-500">
-                          {{ rate.period }}
+                        <span class="text-[10px] text-gray-500">/ jam</span>
+                      </div>
+                    </div>
+
+                    <!-- Malam -->
+                    <div class="p-3.5 rounded-2xl bg-gray-950 text-white border border-gray-950 shadow-xs">
+                      <div class="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider">
+                        Malam (15.00 - 23.00)
+                      </div>
+                      <div class="flex items-baseline gap-1 mt-1">
+                        <span class="text-lg sm:text-xl font-extrabold text-white font-heading">
+                          {{ court.priceNight }}
                         </span>
+                        <span class="text-[10px] text-gray-300">/ jam</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Action Booking Button -->
-              <div class="pt-4 border-t border-gray-100 mt-6">
+              <!-- Tombol Aksi Booking -->
+              <div class="pt-4 border-t border-gray-100 mt-2">
                 <a
-                  :href="`https://wa.me/6281234567890?text=${encodeURIComponent(court.whatsappText)}`"
+                  :href="court.whatsappUrl"
                   target="_blank"
                   rel="noopener"
-                  class="w-full py-3 px-5 rounded-xl bg-gray-950 hover:bg-black text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all active:scale-98 shadow-xs"
+                  class="w-full py-3 px-4 rounded-xl bg-gray-950 hover:bg-black text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-all active:scale-98 shadow-xs"
                 >
                   <Phone class="w-4 h-4 text-emerald-400" />
-                  <span>Booking {{ court.name }} via WhatsApp</span>
+                  <span>Booking {{ court.shortName }} via WhatsApp</span>
                   <ArrowRight class="w-4 h-4" />
                 </a>
               </div>
