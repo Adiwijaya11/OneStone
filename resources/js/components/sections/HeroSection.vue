@@ -1,165 +1,237 @@
 <script setup>
-import { ref } from 'vue';
-import { Trophy, Car, MapPin, Clock, ArrowRight, Phone } from '@lucide/vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { ArrowUpRight, Trophy, Car, MapPin, Clock, Phone, ChevronRight } from '@lucide/vue';
 
-// Tab pilihan foto showcase fasilitas nyata
-const activeTab = ref('futsal');
+// Data slide fasilitas utama dengan foto asli berkualitas tinggi
+const slides = [
+  {
+    id: 'futsal',
+    badge: 'FASILITAS 01 • FUTSAL ARENA',
+    headline: 'Arena Bertanding Kelas Utama.',
+    description: 'Dua lapangan futsal rumput sintetis standar turnamen dengan pencahayaan malam LED terang dan tribun penonton di Sebatu, Tegallalang.',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=2400&q=90',
+    tag: 'Futsal FIFA Standard',
+    ctaText: 'Booking Lapangan',
+    ctaLink: 'https://wa.me/6281234567890?text=Halo%20One%20Stone,%20saya%20ingin%20booking%20lapangan%20futsal',
+    highlights: ['Lantai Rumput Sintetis Empuk', 'Papan Skor & Rompi Lengkap', 'Penerangan Malam Terang'],
+  },
+  {
+    id: 'carwash',
+    badge: 'FASILITAS 02 • AUTO DETAILING',
+    headline: 'Perawatan Mobil Bersih Total.',
+    description: 'Sistem cuci hidrolik H-Track modern menjangkau kolong mobil dengan teliti, dilengkapi vakum interior wangi dan shampoo wax netral.',
+    image: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=2400&q=90',
+    tag: 'Carwash & Detailing',
+    ctaText: 'Pesan Antrean Cuci',
+    ctaLink: 'https://wa.me/6281234567890?text=Halo%20One%20Stone,%20saya%20ingin%20cuci%20mobil%20atau%20detailing',
+    highlights: ['Cuci Kolong Hidrolik Bersih', 'Vakum Interior & Fogging', 'Shampoo Wax Ramah Cat'],
+  },
+];
 
-const facilities = {
-  futsal: {
-    title: 'Lapangan Futsal Standar FIFA',
-    desc: 'Lantai rumput sintetis empuk berkualitas dengan pencahayaan LED terang dan jaring pengaman lengkap.',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1800&q=85',
-    tag: 'Fasilitas Futsal',
-    specs: ['Rumput sintetis terawat', 'Papan skor & tribun penonton', 'Sewa rompi & bola'],
-  },
-  carwash: {
-    title: 'Cuci Mobil Hidrolik & Detailing',
-    desc: 'Layanan lift hidrolik H-Track menjangkau bagian kolong mobil secara teliti dengan shampoo pH netral.',
-    image: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=1800&q=85',
-    tag: 'Fasilitas Carwash',
-    specs: ['Cuci kolong & bodi bersih', 'Vakum interior wangi', 'Cuci motor salju'],
-  },
+const currentIndex = ref(0);
+let timer = null;
+
+const setSlide = (index) => {
+  currentIndex.value = index;
+  resetTimer();
 };
+
+const nextSlide = () => {
+  currentIndex.value = (currentIndex.value + 1) % slides.length;
+};
+
+const startTimer = () => {
+  timer = setInterval(nextSlide, 7000);
+};
+
+const resetTimer = () => {
+  if (timer) clearInterval(timer);
+  startTimer();
+};
+
+onMounted(() => {
+  startTimer();
+});
+
+onUnmounted(() => {
+  if (timer) clearInterval(timer);
+});
 </script>
 
 <template>
-  <section class="min-h-[100svh] w-full bg-white text-gray-900 flex flex-col justify-center pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-gray-100">
-    <div class="max-w-7xl mx-auto w-full">
+  <section class="relative h-[100svh] min-h-[100svh] w-full flex flex-col justify-between overflow-hidden bg-black text-white select-none pt-24 sm:pt-28 pb-8 sm:pb-10 px-4 sm:px-6 lg:px-12">
+    
+    <!-- 1. LATAR BELAKANG GAMBAR PENUH DENGAN ANIMASI KEN BURNS & CROSSFADE HALUS -->
+    <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+      <div
+        v-for="(slide, index) in slides"
+        :key="slide.id"
+        :class="[
+          'absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out',
+          currentIndex === index ? 'opacity-100 z-1' : 'opacity-0 z-0'
+        ]"
+      >
+        <img
+          :src="slide.image"
+          :alt="slide.headline"
+          :class="[
+            'w-full h-full object-cover object-center',
+            currentIndex === index ? 'animate-kenburns' : ''
+          ]"
+        />
+      </div>
+
+      <!-- Lapisan Gradien Sinematik Gelap (Menjaga Foto Hidup & Teks Kontras Sangat Tajam) -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/30 z-2"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-2 hidden lg:block"></div>
+    </div>
+
+    <!-- 2. STATUS OPERASIONAL TOP BAR -->
+    <div class="relative z-10 flex items-center justify-between w-full max-w-7xl mx-auto">
+      <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-xs text-slate-200">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        <span class="font-medium font-body tracking-wide text-[11px] sm:text-xs">
+          Buka Setiap Hari: 08.00 - 23.00 WITA • Sebatu, Bali
+        </span>
+      </div>
+
+      <div class="hidden sm:flex items-center gap-2 text-xs text-white/70 font-mono tracking-wider">
+        <span>0{{ currentIndex + 1 }}</span>
+        <span class="w-8 h-px bg-white/30"></span>
+        <span>0{{ slides.length }}</span>
+      </div>
+    </div>
+
+    <!-- 3. KONTEN UTAMA: TIPOGRAFI ARSITEKTURAL BOLD & MODERN -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
       
-      <!-- Layout Asimetris Editorial 2 Kolom (Bukan Template Slop / Bukan Kotak Mengapung) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      <!-- Kolom Teks Kiri -->
+      <div class="lg:col-span-8 space-y-5 sm:space-y-6">
         
-        <!-- Kolom Kiri: Tipografi Kuat, Bersih & Kontras Tinggi -->
-        <div class="lg:col-span-6 space-y-6 sm:space-y-7">
-          
-          <!-- Identitas Lokasi -->
-          <div class="flex items-center gap-2 text-xs uppercase tracking-widest text-gray-500 font-semibold font-body">
-            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-            <span>Sebatu, Tegallalang, Gianyar - Bali</span>
-          </div>
-
-          <!-- Headline Utama (Font: Syne - Tegas & Berkarakter) -->
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-950 font-heading leading-[1.08] tracking-tight">
-            Arena Futsal & Perawatan Mobil Terpadu.
-          </h1>
-
-          <!-- Deskripsi Nyata (Font: Plus Jakarta Sans) -->
-          <p class="text-base sm:text-lg text-gray-600 font-body leading-relaxed max-w-lg">
-            Satu kawasan olahraga dan perawatan kendaraan di Jl. Raya Bilukan, Sebatu. Hadir dengan lapangan futsal berkualitas tinggi dan layanan cuci mobil hidrolik profesional.
+        <!-- Eyebrow Badge Transisi -->
+        <div class="overflow-hidden">
+          <p
+            :key="slides[currentIndex].id"
+            class="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-emerald-400 font-mono animate-in fade-in slide-in-from-bottom-2 duration-300"
+          >
+            {{ slides[currentIndex].badge }}
           </p>
-
-          <!-- Tombol Aksi Nyata (Tanpa Em Dash, Tanpa Style Alay) -->
-          <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <a
-              href="https://wa.me/6281234567890?text=Halo%20One%20Stone,%20saya%20ingin%20booking%20lapangan%20futsal"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center justify-center gap-2 bg-gray-950 hover:bg-black text-white text-sm font-semibold px-6 py-3.5 rounded-xl transition-all duration-150 active:scale-98 shadow-sm font-body"
-            >
-              <span>Booking via WhatsApp</span>
-              <ArrowRight class="w-4 h-4" />
-            </a>
-
-            <a
-              href="#features"
-              class="inline-flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-900 text-sm font-semibold px-6 py-3.5 rounded-xl transition-all duration-150 active:scale-98 font-body"
-            >
-              <span>Lihat Fasilitas & Harga</span>
-            </a>
-          </div>
-
-          <!-- Ringkasan Operasional 2 Baris Bersih -->
-          <div class="pt-4 border-t border-gray-100 grid grid-cols-2 gap-4 text-xs font-body text-gray-600">
-            <div class="space-y-1">
-              <span class="text-gray-400 block text-[11px] uppercase tracking-wider">Jam Operasional</span>
-              <span class="font-medium text-gray-900 flex items-center gap-1.5">
-                <Clock class="w-3.5 h-3.5 text-gray-700 shrink-0" />
-                08.00 - 23.00 WITA
-              </span>
-            </div>
-            <div class="space-y-1">
-              <span class="text-gray-400 block text-[11px] uppercase tracking-wider">Kontak Langsung</span>
-              <a href="tel:+62361972566" class="font-medium text-gray-900 hover:text-black flex items-center gap-1.5">
-                <Phone class="w-3.5 h-3.5 text-gray-700 shrink-0" />
-                (0361) 972566
-              </a>
-            </div>
-          </div>
         </div>
 
-        <!-- Kolom Kanan: Showcase Fotografi Nyata Fasilitas (Jernih, Tajam, Tanpa Kabut) -->
-        <div class="lg:col-span-6 space-y-4">
-          
-          <!-- Tab Selector Foto Nyata -->
-          <div class="flex items-center gap-2 p-1 bg-gray-100 rounded-xl w-fit">
-            <button
-              type="button"
-              @click="activeTab = 'futsal'"
-              :class="[
-                'px-4 py-2 rounded-lg text-xs font-semibold font-body transition-all flex items-center gap-2 cursor-pointer',
-                activeTab === 'futsal'
-                  ? 'bg-white text-gray-950 shadow-xs'
-                  : 'text-gray-600 hover:text-gray-900'
-              ]"
-            >
-              <Trophy class="w-3.5 h-3.5" />
-              <span>Lapangan Futsal</span>
-            </button>
+        <!-- Headline Utama yang Berkarakter & Menarik -->
+        <h1
+          :key="slides[currentIndex].id"
+          class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white font-heading leading-[1.05] tracking-tight max-w-3xl drop-shadow-sm animate-in fade-in slide-in-from-bottom-3 duration-500"
+        >
+          {{ slides[currentIndex].headline }}
+        </h1>
 
-            <button
-              type="button"
-              @click="activeTab = 'carwash'"
-              :class="[
-                'px-4 py-2 rounded-lg text-xs font-semibold font-body transition-all flex items-center gap-2 cursor-pointer',
-                activeTab === 'carwash'
-                  ? 'bg-white text-gray-950 shadow-xs'
-                  : 'text-gray-600 hover:text-gray-900'
-              ]"
-            >
-              <Car class="w-3.5 h-3.5" />
-              <span>Cuci Mobil Hidrolik</span>
-            </button>
-          </div>
+        <!-- Deskripsi Singkat & Bermutu -->
+        <p
+          :key="slides[currentIndex].id"
+          class="text-sm sm:text-lg text-slate-200/90 font-body leading-relaxed max-w-xl font-normal drop-shadow-xs animate-in fade-in slide-in-from-bottom-4 duration-500"
+        >
+          {{ slides[currentIndex].description }}
+        </p>
 
-          <!-- Container Foto Nyata Beresolusi Tinggi -->
-          <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-gray-200 bg-gray-100 shadow-md">
-            <img
-              :key="activeTab"
-              :src="facilities[activeTab].image"
-              :alt="facilities[activeTab].title"
-              class="w-full h-full object-cover object-center transition-all duration-500"
+        <!-- Poin Fasilitas Cepat -->
+        <div class="flex flex-wrap gap-2 pt-1">
+          <span
+            v-for="(item, idx) in slides[currentIndex].highlights"
+            :key="idx"
+            class="text-[11px] sm:text-xs text-white/90 bg-white/10 backdrop-blur-md px-3 py-1 rounded-lg border border-white/15 font-body"
+          >
+            {{ item }}
+          </span>
+        </div>
+
+        <!-- Tombol Aksi Nyata -->
+        <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <a
+            :href="slides[currentIndex].ctaLink"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center justify-center gap-2 bg-white text-gray-950 hover:bg-slate-100 text-sm font-bold px-7 py-3.5 rounded-full transition-all duration-200 active:scale-95 shadow-lg font-body"
+          >
+            <span>{{ slides[currentIndex].ctaText }}</span>
+            <ArrowUpRight class="w-4 h-4" />
+          </a>
+
+          <a
+            href="tel:+62361972566"
+            class="inline-flex items-center justify-center gap-2 bg-white/15 hover:bg-white/25 text-white text-sm font-semibold px-6 py-3.5 rounded-full border border-white/20 backdrop-blur-md transition-all duration-200 active:scale-95 font-body"
+          >
+            <Phone class="w-4 h-4" />
+            <span>Hubungi (0361) 972566</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Kolom Kanan: Pengendali Slide Interaktif (*Interactive Floating Cards*) -->
+      <div class="lg:col-span-4 flex lg:flex-col gap-3 justify-end">
+        <button
+          v-for="(slide, index) in slides"
+          :key="slide.id"
+          type="button"
+          @click="setSlide(index)"
+          :class="[
+            'text-left p-3.5 sm:p-4 rounded-2xl border transition-all duration-300 backdrop-blur-md flex-1 lg:flex-none cursor-pointer group',
+            currentIndex === index
+              ? 'bg-white/20 border-white/50 shadow-xl scale-[1.02]'
+              : 'bg-black/40 border-white/15 hover:bg-black/60 opacity-70 hover:opacity-100'
+          ]"
+        >
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[10px] font-mono tracking-widest text-emerald-300 uppercase font-semibold">
+              0{{ index + 1 }} • {{ slide.tag }}
+            </span>
+            <ChevronRight
+              :class="[
+                'w-4 h-4 transition-transform text-white/80',
+                currentIndex === index ? 'translate-x-1 text-white' : 'group-hover:translate-x-0.5'
+              ]"
             />
-            
-            <!-- Label Tag di Pojok Foto -->
-            <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-xs px-3 py-1.5 rounded-lg text-xs font-bold text-gray-900 border border-gray-200/80 shadow-xs font-body">
-              {{ facilities[activeTab].tag }}
-            </div>
           </div>
-
-          <!-- Keterangan Spesifikasi di Bawah Foto -->
-          <div class="bg-gray-50 rounded-xl p-4 border border-gray-200/80 space-y-2">
-            <h3 class="text-sm font-bold text-gray-950 font-heading">
-              {{ facilities[activeTab].title }}
-            </h3>
-            <p class="text-xs text-gray-600 font-body leading-relaxed">
-              {{ facilities[activeTab].desc }}
-            </p>
-            <div class="pt-2 flex flex-wrap gap-2">
-              <span
-                v-for="(spec, sIdx) in facilities[activeTab].specs"
-                :key="sIdx"
-                class="inline-flex items-center text-[11px] font-medium text-gray-700 bg-white px-2.5 py-1 rounded-md border border-gray-200"
-              >
-                {{ spec }}
-              </span>
-            </div>
+          <h4 class="text-xs sm:text-sm font-bold text-white font-heading truncate">
+            {{ slide.headline }}
+          </h4>
+          
+          <!-- Animated Progress Line -->
+          <div class="w-full bg-white/20 h-1 rounded-full mt-2.5 overflow-hidden">
+            <div
+              :class="[
+                'h-full bg-white transition-all',
+                currentIndex === index ? 'w-full duration-7000 ease-linear' : 'w-0 duration-200'
+              ]"
+            ></div>
           </div>
-
-        </div>
-
+        </button>
       </div>
 
     </div>
+
+    <!-- 4. LOKASI FOOTER BARIS MINIMALIS -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/60 font-body border-t border-white/15 pt-4">
+      <div class="flex items-center gap-1.5">
+        <MapPin class="w-3.5 h-3.5 text-white/80 shrink-0" />
+        <span>Jl. Raya Bilukan, Desa Sebatu, Kec. Tegallalang, Gianyar, Bali 80561</span>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <span class="inline-flex items-center gap-1.5">
+          <Trophy class="w-3.5 h-3.5 text-white/80" />
+          <span>2 Lapangan Rumput Sintetis</span>
+        </span>
+        <span>•</span>
+        <span class="inline-flex items-center gap-1.5">
+          <Car class="w-3.5 h-3.5 text-white/80" />
+          <span>Cuci Mobil & Motor Hidrolik</span>
+        </span>
+      </div>
+    </div>
+
   </section>
 </template>

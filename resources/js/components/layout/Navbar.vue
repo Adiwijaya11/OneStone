@@ -23,7 +23,7 @@ const closeMobileMenu = () => {
 <template>
   <header class="fixed top-3 sm:top-5 inset-x-0 z-50 flex flex-col items-center px-4 sm:px-6 pointer-events-none">
     <!-- Floating Transparent Capsule Bar (Unik, Simpel & Elegan) -->
-    <div class="pointer-events-auto w-full max-w-3xl bg-white/50 hover:bg-white/65 backdrop-blur-md border border-white/80 shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-3.5 sm:px-5 py-2 sm:py-2.5 transition-all duration-300 flex items-center justify-between">
+    <div class="pointer-events-auto w-full max-w-3xl bg-white/85 hover:bg-white/95 backdrop-blur-md border border-white/90 shadow-[0_8px_30px_rgba(0,0,0,0.12)] rounded-full px-3.5 sm:px-5 py-2 sm:py-2.5 transition-all duration-300 flex items-center justify-between">
       
       <!-- Brand Logo & Nama -->
       <a href="#" class="flex items-center gap-2 sm:gap-2.5 group">
