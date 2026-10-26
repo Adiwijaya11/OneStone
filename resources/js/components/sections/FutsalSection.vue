@@ -70,6 +70,16 @@ const rates = [
         <p class="text-base sm:text-lg text-gray-600 font-body leading-relaxed max-w-2xl">
           Dua lapangan rumput sintetis berkualitas di Sebatu dengan udara perbukitan sejuk, pencahayaan LED malam terang, dan fasilitas tanding lengkap.
         </p>
+
+        <div class="pt-2">
+          <router-link
+            to="/futsal"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-950 hover:bg-black text-white text-xs font-semibold transition-all shadow-xs active:scale-98"
+          >
+            <span>Buka Halaman Lapangan & Cek Jadwal Lengkap</span>
+            <ArrowRight class="w-3.5 h-3.5" />
+          </router-link>
+        </div>
       </div>
 
       <!-- Grid Keunggulan Fasilitas (4 Kolom Sederhana & Fungsional) -->

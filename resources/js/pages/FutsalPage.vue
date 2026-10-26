@@ -1,0 +1,654 @@
+<script setup>
+import { ref, computed } from 'vue';
+import Navbar from '../components/layout/Navbar.vue';
+import Footer from '../components/layout/Footer.vue';
+import {
+  Trophy,
+  Calendar,
+  Clock,
+  CheckCircle2,
+  Phone,
+  ArrowRight,
+  ShieldCheck,
+  Shirt,
+  Lightbulb,
+  MapPin,
+  ChevronRight,
+  Sparkles,
+  Users,
+  CircleDollarSign,
+  Info
+} from '@lucide/vue';
+
+// Filter status lapangan
+const activeCourtTab = ref('all'); // 'all' | 'court1' | 'court2'
+
+// Filter jadwal ketersediaan
+const selectedDate = ref('hari-ini');
+const selectedCourtSchedule = ref('court1');
+
+const dates = [
+  { id: 'hari-ini', label: 'Hari Ini', subtext: '26 Oktober' },
+  { id: 'besok', label: 'Besok', subtext: '27 Oktober' },
+  { id: 'lusa', label: 'Lusa', subtext: '28 Oktober' },
+];
+
+// Data Lapangan
+const courts = [
+  {
+    id: 'court1',
+    name: 'Lapangan 1 (Arena Utama)',
+    tag: 'Standar Kompetisi',
+    badgeClass: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20',
+    description: 'Arena utama dengan rumput sintetis monofilament tebal 50mm, jaring pengaman keliling 6 meter, serta tribun penonton. Pilihan utama untuk turnamen dan sparing bergengsi.',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80',
+    status: 'Tersedia',
+    specs: [
+      { label: 'Ukuran Lapangan', value: '28 x 16 Meter' },
+      { label: 'Jenis Permukaan', value: 'Monofilament Turf 50mm + Eco-Infill' },
+      { label: 'Penerangan', value: '8x LED Floodlight Stadium 400W' },
+      { label: 'Kapasitas Penonton', value: 'Tribun 50 Penonton + Player Bench' },
+    ],
+    features: [
+      'Papan skor digital LED nirkabel',
+      'Gratis 2 set rompi tanding resmi',
+      'Gratis peminjaman 2 bola futsal standar FIFA',
+      'Area bench cadangan tertutup & nyaman',
+    ],
+    rates: [
+      { session: 'Pagi - Siang (08.00 - 15.00 WITA)', price: 'Rp 120.000', period: '/ jam' },
+      { session: 'Sore - Malam (15.00 - 23.00 WITA)', price: 'Rp 160.000', period: '/ jam' },
+    ],
+    whatsappText: 'Halo ONE STONE Sebatu, saya ingin booking Lapangan 1 (Arena Utama).',
+  },
+  {
+    id: 'court2',
+    name: 'Lapangan 2 (Arena Standar)',
+    tag: 'Sparing & Latihan',
+    badgeClass: 'bg-blue-500/10 text-blue-700 border-blue-500/20',
+    description: 'Lapangan rumput sintetis berstandar tinggi yang responsif dengan pantulan bola presisi. Ideal untuk latihan rutin komunitas, sparing pelajar, dan pertandingan persahabatan.',
+    image: 'https://images.unsplash.com/photo-1529900245534-47fbf82a4d33?auto=format&fit=crop&w=1000&q=80',
+    status: 'Tersedia',
+    specs: [
+      { label: 'Ukuran Lapangan', value: '26 x 15 Meter' },
+      { label: 'Jenis Permukaan', value: 'High Density Synthetic Turf 45mm' },
+      { label: 'Penerangan', value: '6x LED Sports Lighting 300W' },
+      { label: 'Kapasitas Area', value: 'Bench Pemain Tim A & B' },
+    ],
+    features: [
+      'Jaring keliling setinggi 5 meter anti-pantul',
+      'Gratis peminjaman rompi tim',
+      'Gratis 2 bola futsal pertandingan',
+      'Stopwatch & papan skor manual',
+    ],
+    rates: [
+      { session: 'Pagi - Siang (08.00 - 15.00 WITA)', price: 'Rp 100.000', period: '/ jam' },
+      { session: 'Sore - Malam (15.00 - 23.00 WITA)', price: 'Rp 140.000', period: '/ jam' },
+    ],
+    whatsappText: 'Halo ONE STONE Sebatu, saya ingin booking Lapangan 2 (Arena Standar).',
+  },
+];
+
+// Jadwal Slot Jam Main & Ketersediaan
+const scheduleSlots = [
+  { time: '08.00 - 09.00', court1: 'available', court2: 'available', price1: 'Rp 120.000', price2: 'Rp 100.000' },
+  { time: '09.00 - 10.00', court1: 'available', court2: 'available', price1: 'Rp 120.000', price2: 'Rp 100.000' },
+  { time: '10.00 - 11.00', court1: 'booked', court2: 'available', price1: 'Rp 120.000', price2: 'Rp 100.000' },
+  { time: '11.00 - 12.00', court1: 'available', court2: 'available', price1: 'Rp 120.000', price2: 'Rp 100.000' },
+  { time: '13.00 - 14.00', court1: 'available', court2: 'available', price1: 'Rp 120.000', price2: 'Rp 100.000' },
+  { time: '14.00 - 15.00', court1: 'available', court2: 'booked', price1: 'Rp 120.000', price2: 'Rp 100.000' },
+  { time: '15.00 - 16.00', court1: 'available', court2: 'available', price1: 'Rp 160.000', price2: 'Rp 140.000' },
+  { time: '16.00 - 17.00', court1: 'booked', court2: 'available', price1: 'Rp 160.000', price2: 'Rp 140.000' },
+  { time: '17.00 - 18.00', court1: 'booked', court2: 'booked', price1: 'Rp 160.000', price2: 'Rp 140.000' },
+  { time: '18.00 - 19.00', court1: 'booked', court2: 'available', price1: 'Rp 160.000', price2: 'Rp 140.000' },
+  { time: '19.00 - 20.00', court1: 'booked', court2: 'booked', price1: 'Rp 160.000', price2: 'Rp 140.000' },
+  { time: '20.00 - 21.00', court1: 'available', court2: 'booked', price1: 'Rp 160.000', price2: 'Rp 140.000' },
+  { time: '21.00 - 22.00', court1: 'available', court2: 'available', price1: 'Rp 160.000', price2: 'Rp 140.000' },
+  { time: '22.00 - 23.00', court1: 'available', court2: 'available', price1: 'Rp 160.000', price2: 'Rp 140.000' },
+];
+
+const filteredCourts = computed(() => {
+  if (activeCourtTab.value === 'all') return courts;
+  return courts.filter(c => c.id === activeCourtTab.value);
+});
+
+// Paket Tambahan / Membership
+const membershipPackages = [
+  {
+    name: 'Paket Member Mingguan',
+    subtitle: 'Solusi tim & komunitas rutin',
+    discount: 'Diskon 15%',
+    benefits: [
+      'Kepastian jadwal jam main tetap setiap minggu',
+      'Prioritas jam favorit (slot malam 19.00 - 22.00)',
+      'Gratis pencucian 1 unit mobil di One Stone Carwash',
+      'Penyimpanan perlengkapan tim di loker venue',
+    ],
+    cta: 'Gabung Member Rutin',
+  },
+  {
+    name: 'Paket Turnamen & Sparing',
+    subtitle: 'Event kompetisi atau gathering',
+    discount: 'Harga Khusus',
+    benefits: [
+      'Penyewaan kedua lapangan sekaligus (Full Day)',
+      'Fasilitas sound system & mic pembawa acara',
+      'Area panggung mini & tenda peserta',
+      'Koordinasi wasit berlisensi lokal Bali',
+    ],
+    cta: 'Konsultasi Event Turnamen',
+  },
+];
+
+// Tata tertib venue
+const rules = [
+  { title: 'Sepatu Olahraga Khusus', desc: 'Wajib menggunakan sepatu futsal (sol karet / indoor flat atau turf TF). Dilarang menggunakan pul bola luar (metal/cleats).' },
+  { title: 'Ketepatan Waktu', desc: 'Harap hadir 10-15 menit sebelum slot dimulai agar pemanasan optimal dan tidak memotong durasi pertandingan.' },
+  { title: 'Kebersihan Lapangan', desc: 'Dilarang membawa makanan dan minuman manis berceceran ke atas rumput sintetis demi kenyamanan bersama.' },
+  { title: 'Zona Bebas Asap Rokok', desc: 'Area dalam lapangan dan bench pemain merupakan zona dilarang merokok. Tersedia area santai khusus di luar.' },
+];
+</script>
+
+<template>
+  <div class="min-h-screen flex flex-col bg-white text-gray-900">
+    <!-- Reusable Transparent Floating Navbar -->
+    <Navbar />
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24 sm:pt-28 pb-16">
+      
+      <!-- Breadcrumb & Page Header -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-10">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-1.5 text-xs text-gray-500 font-medium mb-6">
+          <router-link to="/" class="hover:text-black transition-colors">Beranda</router-link>
+          <ChevronRight class="w-3.5 h-3.5 text-gray-400" />
+          <span class="text-gray-900 font-semibold">Arena Futsal & Lapangan</span>
+        </nav>
+
+        <!-- Heading & Intro -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+          <div class="lg:col-span-8 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>2 Lapangan Aktif Siap Pakai di Sebatu, Tegallalang</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-gray-950 font-heading tracking-tight leading-[1.1]">
+              Pilihan Lapangan Futsal Standar Kompetisi.
+            </h1>
+
+            <p class="text-base sm:text-lg text-gray-600 font-body leading-relaxed max-w-2xl">
+              ONE STONE menyediakan dua arena futsal rumput sintetis premium dengan sirkulasi udara pegunungan Sebatu yang segar, penerangan LED malam merata, dan fasilitas pertandingan lengkap.
+            </p>
+          </div>
+
+          <!-- Quick Stats / Callout -->
+          <div class="lg:col-span-4 bg-gray-50 border border-gray-200 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <span>Jam Operasional</span>
+              <span class="text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full font-bold">Buka Setiap Hari</span>
+            </div>
+            <div class="flex items-baseline gap-2">
+              <span class="text-2xl sm:text-3xl font-extrabold text-gray-950 font-heading">08.00 - 23.00</span>
+              <span class="text-xs text-gray-500 font-medium">WITA</span>
+            </div>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Booking instan via WhatsApp admin untuk reservasi slot harian atau jadwal mingguan.
+            </p>
+            <a
+              href="https://wa.me/6281234567890?text=Halo%20ONE%20STONE%20Sebatu,%20saya%20ingin%20cek%20ketersediaan%20lapangan%20futsal"
+              target="_blank"
+              rel="noopener"
+              class="w-full mt-2 inline-flex items-center justify-center gap-1.5 bg-gray-950 hover:bg-black text-white text-xs font-semibold py-2.5 px-4 rounded-xl transition-all shadow-xs"
+            >
+              <Phone class="w-3.5 h-3.5" />
+              <span>WhatsApp Admin: (0361) 972566</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Daftar Lapangan Yang Tersedia -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 border-t border-gray-100">
+        
+        <!-- Filter Tabs -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-950 font-heading tracking-tight">
+              Daftar Lapangan Tersedia
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-600 mt-1">
+              Pilih spesifikasi lapangan yang sesuai dengan kebutuhan pertandingan tim Anda.
+            </p>
+          </div>
+
+          <!-- Tab Selector -->
+          <div class="inline-flex p-1 bg-gray-100 rounded-xl border border-gray-200/80 self-start sm:self-auto">
+            <button
+              type="button"
+              @click="activeCourtTab = 'all'"
+              :class="[
+                'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all',
+                activeCourtTab === 'all'
+                  ? 'bg-white text-gray-950 shadow-xs'
+                  : 'text-gray-600 hover:text-gray-950'
+              ]"
+            >
+              Semua Lapangan (2)
+            </button>
+            <button
+              type="button"
+              @click="activeCourtTab = 'court1'"
+              :class="[
+                'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all',
+                activeCourtTab === 'court1'
+                  ? 'bg-white text-gray-950 shadow-xs'
+                  : 'text-gray-600 hover:text-gray-950'
+              ]"
+            >
+              Lapangan 1
+            </button>
+            <button
+              type="button"
+              @click="activeCourtTab = 'court2'"
+              :class="[
+                'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all',
+                activeCourtTab === 'court2'
+                  ? 'bg-white text-gray-950 shadow-xs'
+                  : 'text-gray-600 hover:text-gray-950'
+              ]"
+            >
+              Lapangan 2
+            </button>
+          </div>
+        </div>
+
+        <!-- Court Cards Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div
+            v-for="court in filteredCourts"
+            :key="court.id"
+            class="rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow duration-300"
+          >
+            <!-- Image & Badge Header -->
+            <div class="relative h-60 sm:h-72 w-full overflow-hidden bg-gray-100">
+              <img
+                :src="court.image"
+                :alt="court.name"
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-gray-950/20 to-transparent"></div>
+              
+              <!-- Top Badges -->
+              <div class="absolute top-4 inset-x-4 flex items-center justify-between">
+                <span class="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-xs text-gray-900 text-xs font-bold px-3 py-1 rounded-full shadow-xs">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <span>{{ court.status }}</span>
+                </span>
+
+                <span class="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full bg-black/60 text-white backdrop-blur-xs">
+                  {{ court.tag }}
+                </span>
+              </div>
+
+              <!-- Bottom Title Overlay -->
+              <div class="absolute bottom-4 inset-x-4 text-white">
+                <h3 class="text-xl sm:text-2xl font-bold font-heading leading-tight drop-shadow-xs">
+                  {{ court.name }}
+                </h3>
+              </div>
+            </div>
+
+            <!-- Card Content Body -->
+            <div class="p-6 sm:p-7 space-y-6 flex-grow flex flex-col justify-between">
+              <div class="space-y-5">
+                <p class="text-sm text-gray-600 leading-relaxed font-body">
+                  {{ court.description }}
+                </p>
+
+                <!-- Technical Specs Grid -->
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                  <div
+                    v-for="(spec, sIdx) in court.specs"
+                    :key="sIdx"
+                    class="p-3 rounded-xl bg-gray-50 border border-gray-100 space-y-1"
+                  >
+                    <div class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+                      {{ spec.label }}
+                    </div>
+                    <div class="text-xs sm:text-sm font-bold text-gray-900 font-heading">
+                      {{ spec.value }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Included Amenities -->
+                <div class="space-y-2 pt-2">
+                  <div class="text-xs font-bold text-gray-900 uppercase tracking-wider">
+                    Fasilitas Termasuk
+                  </div>
+                  <ul class="space-y-1.5">
+                    <li
+                      v-for="(feat, fIdx) in court.features"
+                      :key="fIdx"
+                      class="flex items-center gap-2 text-xs sm:text-sm text-gray-700"
+                    >
+                      <CheckCircle2 class="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>{{ feat }}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Pricing Box -->
+                <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200/80 space-y-2.5">
+                  <div class="text-xs font-bold text-gray-900 uppercase tracking-wider flex items-center justify-between">
+                    <span>Tarif Sewa Reguler</span>
+                    <span class="text-[11px] text-gray-500 lowercase font-normal">per sesi per jam</span>
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    <div
+                      v-for="(rate, rIdx) in court.rates"
+                      :key="rIdx"
+                      class="bg-white p-3 rounded-xl border border-gray-200/80 flex flex-col justify-between"
+                    >
+                      <span class="text-[11px] font-medium text-gray-500 leading-tight">
+                        {{ rate.session }}
+                      </span>
+                      <div class="pt-1 flex items-baseline gap-1">
+                        <span class="text-lg font-extrabold text-gray-950 font-heading">
+                          {{ rate.price }}
+                        </span>
+                        <span class="text-[11px] text-gray-500">
+                          {{ rate.period }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Booking Button -->
+              <div class="pt-4 border-t border-gray-100 mt-6">
+                <a
+                  :href="`https://wa.me/6281234567890?text=${encodeURIComponent(court.whatsappText)}`"
+                  target="_blank"
+                  rel="noopener"
+                  class="w-full py-3 px-5 rounded-xl bg-gray-950 hover:bg-black text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all active:scale-98 shadow-xs"
+                >
+                  <Phone class="w-4 h-4 text-emerald-400" />
+                  <span>Booking {{ court.name }} via WhatsApp</span>
+                  <ArrowRight class="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Section: Live Slot Matrix / Jadwal Hari Ini -->
+      <section id="jadwal" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 border-t border-gray-100">
+        <div class="rounded-3xl border border-gray-200 bg-gray-50/60 p-6 sm:p-10 space-y-8">
+          
+          <!-- Header Jadwal -->
+          <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-gray-200">
+            <div class="space-y-2">
+              <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                <Clock class="w-3.5 h-3.5" />
+                <span>Slot Waktu Real-Time</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-bold text-gray-950 font-heading tracking-tight">
+                Cek Ketersediaan Slot Jadwal Main
+              </h2>
+              <p class="text-xs sm:text-sm text-gray-600 max-w-xl">
+                Pantau ketersediaan jam main untuk hari ini dan hari berikutnya. Klik tombol booking pada slot yang Anda inginkan untuk reservasi instan.
+              </p>
+            </div>
+
+            <!-- Date Selector Tabs -->
+            <div class="flex items-center gap-2">
+              <button
+                v-for="d in dates"
+                :key="d.id"
+                type="button"
+                @click="selectedDate = d.id"
+                :class="[
+                  'px-4 py-2.5 rounded-xl text-left border transition-all flex flex-col',
+                  selectedDate === d.id
+                    ? 'bg-gray-950 text-white border-gray-950 shadow-xs'
+                    : 'bg-white text-gray-800 border-gray-200 hover:border-gray-300'
+                ]"
+              >
+                <span class="text-xs font-bold">{{ d.label }}</span>
+                <span :class="['text-[10px]', selectedDate === d.id ? 'text-gray-300' : 'text-gray-500']">{{ d.subtext }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Schedule Matrix Grid -->
+          <div class="space-y-4">
+            <div class="flex items-center justify-between text-xs text-gray-500">
+              <div class="flex items-center gap-4">
+                <span class="inline-flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                  <span class="font-medium text-gray-700">Tersedia</span>
+                </span>
+                <span class="inline-flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
+                  <span class="font-medium text-gray-700">Terisi (Booked)</span>
+                </span>
+              </div>
+              <span class="hidden sm:inline">Pembaruan jadwal berkala oleh admin</span>
+            </div>
+
+            <!-- Slots Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              <div
+                v-for="(slot, idx) in scheduleSlots"
+                :key="idx"
+                class="p-3.5 rounded-2xl bg-white border border-gray-200 shadow-2xs space-y-2.5 flex flex-col justify-between"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-extrabold text-gray-950 font-heading">
+                    {{ slot.time }}
+                  </span>
+                  <span class="text-[10px] uppercase font-semibold text-gray-500">
+                    WITA
+                  </span>
+                </div>
+
+                <!-- Slot status per court -->
+                <div class="space-y-1.5 pt-1 text-xs">
+                  <!-- Lapangan 1 -->
+                  <div class="flex items-center justify-between p-2 rounded-lg bg-gray-50">
+                    <span class="text-[11px] font-medium text-gray-700">Lap. 1 (Utama)</span>
+                    <span
+                      v-if="slot.court1 === 'available'"
+                      class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md"
+                    >
+                      Tersedia
+                    </span>
+                    <span
+                      v-else
+                      class="text-[10px] font-semibold text-gray-500 bg-gray-200/80 px-2 py-0.5 rounded-md"
+                    >
+                      Terisi
+                    </span>
+                  </div>
+
+                  <!-- Lapangan 2 -->
+                  <div class="flex items-center justify-between p-2 rounded-lg bg-gray-50">
+                    <span class="text-[11px] font-medium text-gray-700">Lap. 2 (Standar)</span>
+                    <span
+                      v-if="slot.court2 === 'available'"
+                      class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md"
+                    >
+                      Tersedia
+                    </span>
+                    <span
+                      v-else
+                      class="text-[10px] font-semibold text-gray-500 bg-gray-200/80 px-2 py-0.5 rounded-md"
+                    >
+                      Terisi
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Booking CTA -->
+                <a
+                  :href="`https://wa.me/6281234567890?text=Halo%20ONE%20STONE,%20saya%20ingin%20booking%20jam%20${encodeURIComponent(slot.time)}%20WITA%20untuk%20tanggal%20${selectedDate}`"
+                  target="_blank"
+                  rel="noopener"
+                  class="mt-1 w-full py-2 px-3 rounded-lg text-center text-xs font-semibold transition-colors bg-gray-100 hover:bg-gray-900 hover:text-white text-gray-800"
+                >
+                  Pilih Jam Ini
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section: Paket Membership & Turnamen -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 border-t border-gray-100">
+        <div class="max-w-3xl mb-8 space-y-2">
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-950 font-heading tracking-tight">
+            Paket Member Rutin & Turnamen
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-600">
+            Dapatkan keuntungan eksklusif, penghematan biaya sewa, serta kepastian slot jadwal reguler untuk komunitas Anda.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            v-for="(pkg, pIdx) in membershipPackages"
+            :key="pIdx"
+            class="p-6 sm:p-8 rounded-3xl border border-gray-200 bg-white space-y-6 flex flex-col justify-between hover:border-gray-300 transition-colors"
+          >
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-xl font-bold text-gray-950 font-heading">
+                    {{ pkg.name }}
+                  </h3>
+                  <p class="text-xs text-gray-500 mt-0.5">
+                    {{ pkg.subtitle }}
+                  </p>
+                </div>
+                <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">
+                  {{ pkg.discount }}
+                </span>
+              </div>
+
+              <ul class="space-y-2.5 pt-2">
+                <li
+                  v-for="(benefit, bIdx) in pkg.benefits"
+                  :key="bIdx"
+                  class="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700"
+                >
+                  <CheckCircle2 class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span>{{ benefit }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="pt-4 border-t border-gray-100">
+              <a
+                :href="`https://wa.me/6281234567890?text=Halo%20ONE%20STONE,%20saya%20tertarik%20dengan%20${encodeURIComponent(pkg.name)}`"
+                target="_blank"
+                rel="noopener"
+                class="w-full py-2.5 px-4 rounded-xl text-xs font-bold inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-black text-white transition-all shadow-xs"
+              >
+                <span>{{ pkg.cta }}</span>
+                <ArrowRight class="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Tata Tertib & Aturan Venue -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 border-t border-gray-100">
+        <div class="rounded-3xl bg-gray-50 border border-gray-200 p-6 sm:p-10 space-y-6">
+          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-500">
+            <Info class="w-4 h-4 text-gray-700" />
+            <span>Tata Tertib & Ketentuan Pemakaian Lapangan</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div
+              v-for="(rule, rIdx) in rules"
+              :key="rIdx"
+              class="bg-white p-5 rounded-2xl border border-gray-200/80 space-y-2"
+            >
+              <div class="text-xs font-bold text-gray-950 font-heading">
+                {{ rule.title }}
+              </div>
+              <p class="text-xs text-gray-600 leading-relaxed font-body">
+                {{ rule.desc }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Lokasi & Panduan Akses -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 border-t border-gray-100">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-6 space-y-4">
+            <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <MapPin class="w-4 h-4 text-emerald-600" />
+              <span>Lokasi ONE STONE Bali</span>
+            </div>
+            
+            <h2 class="text-2xl sm:text-4xl font-bold text-gray-950 font-heading tracking-tight">
+              Mudah Dijangkau di Jalur Utama Sebatu, Tegallalang.
+            </h2>
+
+            <p class="text-sm text-gray-600 font-body leading-relaxed">
+              Beralamat di <strong>Jl. Raya Bilukan, Sebatu, Kec. Tegallalang, Kabupaten Gianyar, Bali 80561</strong>. Terletak di tepi jalan raya dengan area parkir mobil dan motor luas dan aman.
+            </p>
+
+            <div class="pt-2 flex flex-wrap gap-3">
+              <a
+                href="https://maps.google.com/?q=Jl.+Raya+Bilukan,+Sebatu,+Tegallalang,+Gianyar,+Bali"
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gray-950 hover:bg-black text-white text-xs font-semibold transition-all shadow-xs"
+              >
+                <MapPin class="w-3.5 h-3.5 text-emerald-400" />
+                <span>Buka Petunjuk Arah di Google Maps</span>
+              </a>
+
+              <a
+                href="tel:+62361972566"
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-800 text-xs font-semibold hover:bg-gray-50 transition-all"
+              >
+                <Phone class="w-3.5 h-3.5 text-gray-500" />
+                <span>Telepon: (0361) 972566</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 rounded-3xl overflow-hidden border border-gray-200 bg-gray-100 aspect-video relative">
+            <iframe
+              title="Peta Lokasi ONE STONE Futsal & Carwash"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15783.504289895048!2d115.2936!3d-8.4358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd22359be2442cf%3A0x7d6f5f3e9c687e1a!2sSebatu%2C%20Tegallalang%2C%20Gianyar%20Regency%2C%20Bali!5e0!3m2!1sen!2sid!4v1700000000000"
+              class="w-full h-full border-0"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Reusable Footer -->
+    <Footer />
+  </div>
+</template>

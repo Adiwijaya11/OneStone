@@ -11,7 +11,8 @@ const slides = [
     description: 'Dua lapangan futsal rumput sintetis standar turnamen dengan pencahayaan malam LED terang dan tribun penonton di Sebatu, Tegallalang.',
     image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=2400&q=90',
     tag: 'Futsal FIFA Standard',
-    ctaText: 'Booking Lapangan',
+    ctaText: 'Lihat Lapangan & Booking',
+    ctaRoute: '/futsal',
     ctaLink: 'https://wa.me/6281234567890?text=Halo%20One%20Stone,%20saya%20ingin%20booking%20lapangan%20futsal',
     highlights: ['Lantai Rumput Sintetis Empuk', 'Papan Skor & Rompi Lengkap', 'Penerangan Malam Terang'],
   },
@@ -150,7 +151,16 @@ onUnmounted(() => {
 
         <!-- Tombol Aksi Nyata -->
         <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <router-link
+            v-if="slides[currentIndex].ctaRoute"
+            :to="slides[currentIndex].ctaRoute"
+            class="inline-flex items-center justify-center gap-2 bg-white text-gray-950 hover:bg-slate-100 text-sm font-bold px-7 py-3.5 rounded-full transition-all duration-200 active:scale-95 shadow-lg font-body"
+          >
+            <span>{{ slides[currentIndex].ctaText }}</span>
+            <ArrowUpRight class="w-4 h-4" />
+          </router-link>
           <a
+            v-else
             :href="slides[currentIndex].ctaLink"
             target="_blank"
             rel="noopener"
