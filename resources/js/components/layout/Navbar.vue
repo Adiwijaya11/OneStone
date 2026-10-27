@@ -1,14 +1,16 @@
 <script setup>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { Menu, X, ArrowUpRight, Calendar, Phone } from '@lucide/vue';
 
+const route = useRoute();
 const isMobileMenuOpen = ref(false);
 
-// Hanya 3 link esensial (tidak terlalu banyak)
+// 3 link esensial
 const navLinks = [
-  { name: 'Futsal', href: '#futsal' },
-  { name: 'Carwash', href: '#carwash' },
-  { name: 'Fasilitas', href: '#features' },
+  { name: 'Futsal', to: '/futsal' },
+  { name: 'Carwash', href: '/#carwash' },
+  { name: 'Fasilitas', href: '/#features' },
 ];
 
 const toggleMobileMenu = () => {
@@ -26,7 +28,7 @@ const closeMobileMenu = () => {
     <div class="pointer-events-auto w-full max-w-3xl bg-white/85 hover:bg-white/95 backdrop-blur-md border border-white/90 shadow-[0_8px_30px_rgba(0,0,0,0.12)] rounded-full px-3.5 sm:px-5 py-2 sm:py-2.5 transition-all duration-300 flex items-center justify-between">
       
       <!-- Brand Logo & Nama -->
-      <a href="#" class="flex items-center gap-2 sm:gap-2.5 group">
+      <router-link to="/" class="flex items-center gap-2 sm:gap-2.5 group">
         <img
           src="https://th.bing.com/th/id/OIP.UREMDPQLbngQutnBESL38AHaHh?w=108&h=108&c=1&bgcl=c41b86&r=0&o=7&dpr=2&pid=ImgRC&rm=3"
           alt="ONE STONE Logo"
@@ -40,18 +42,29 @@ const closeMobileMenu = () => {
             Bali
           </span>
         </div>
-      </a>
+      </router-link>
 
       <!-- Desktop Navigation Links (Hanya 3 Link Bersih) -->
       <nav class="hidden md:flex items-center gap-6">
-        <a
-          v-for="link in navLinks"
-          :key="link.name"
-          :href="link.href"
-          class="text-xs sm:text-sm font-medium text-gray-700 hover:text-black transition-colors px-1 py-0.5"
-        >
-          {{ link.name }}
-        </a>
+        <template v-for="link in navLinks" :key="link.name">
+          <router-link
+            v-if="link.to"
+            :to="link.to"
+            :class="[
+              'text-xs sm:text-sm font-medium transition-colors px-1 py-0.5',
+              route?.path === link.to ? 'text-black font-bold' : 'text-gray-700 hover:text-black'
+            ]"
+          >
+            {{ link.name }}
+          </router-link>
+          <a
+            v-else
+            :href="link.href"
+            class="text-xs sm:text-sm font-medium text-gray-700 hover:text-black transition-colors px-1 py-0.5"
+          >
+            {{ link.name }}
+          </a>
+        </template>
       </nav>
 
       <!-- Desktop Action CTA -->
@@ -63,23 +76,23 @@ const closeMobileMenu = () => {
           <Phone class="w-3 h-3 text-gray-500" />
           <span>(0361) 972566</span>
         </a>
-        <a
-          href="#booking"
+        <router-link
+          to="/futsal"
           class="inline-flex items-center gap-1 bg-gray-900 hover:bg-black text-white text-xs font-semibold px-4 py-2 rounded-full transition-all duration-150 active:scale-95 shadow-xs"
         >
           <span>Booking</span>
           <ArrowUpRight class="w-3.5 h-3.5" />
-        </a>
+        </router-link>
       </div>
 
       <!-- Mobile Button & Hamburger Toggle -->
       <div class="flex sm:hidden items-center gap-1.5">
-        <a
-          href="#booking"
+        <router-link
+          to="/futsal"
           class="bg-gray-900 text-white text-[11px] font-semibold px-3 py-1.5 rounded-full inline-flex items-center gap-1"
         >
           <span>Booking</span>
-        </a>
+        </router-link>
         <button
           type="button"
           @click="toggleMobileMenu"
@@ -106,15 +119,27 @@ const closeMobileMenu = () => {
         class="pointer-events-auto md:hidden mt-2 w-full max-w-3xl bg-white/95 backdrop-blur-lg border border-white/90 shadow-xl rounded-2xl p-4 space-y-3"
       >
         <nav class="flex flex-col space-y-1">
-          <a
-            v-for="link in navLinks"
-            :key="link.name"
-            :href="link.href"
-            @click="closeMobileMenu"
-            class="h-10 px-3 flex items-center text-sm font-medium text-gray-800 hover:text-black hover:bg-gray-100/70 rounded-xl transition-colors"
-          >
-            {{ link.name }}
-          </a>
+          <template v-for="link in navLinks" :key="link.name">
+            <router-link
+              v-if="link.to"
+              :to="link.to"
+              @click="closeMobileMenu"
+              :class="[
+                'h-10 px-3 flex items-center text-sm font-medium rounded-xl transition-colors',
+                route?.path === link.to ? 'bg-gray-100 font-bold text-black' : 'text-gray-800 hover:text-black hover:bg-gray-100/70'
+              ]"
+            >
+              {{ link.name }}
+            </router-link>
+            <a
+              v-else
+              :href="link.href"
+              @click="closeMobileMenu"
+              class="h-10 px-3 flex items-center text-sm font-medium text-gray-800 hover:text-black hover:bg-gray-100/70 rounded-xl transition-colors"
+            >
+              {{ link.name }}
+            </a>
+          </template>
         </nav>
 
         <div class="pt-2 border-t border-gray-100 flex flex-col gap-2">
@@ -126,14 +151,14 @@ const closeMobileMenu = () => {
             <Phone class="w-3.5 h-3.5 text-gray-500" />
             <span>Telepon: (0361) 972566</span>
           </a>
-          <a
-            href="#booking"
+          <router-link
+            to="/futsal"
             @click="closeMobileMenu"
             class="h-10 rounded-xl bg-gray-900 text-white text-xs font-semibold flex items-center justify-center gap-1.5"
           >
             <Calendar class="w-3.5 h-3.5" />
-            <span>Reservasi Jadwal Futsal / Carwash</span>
-          </a>
+            <span>Lihat Lapangan & Booking Jadwal</span>
+          </router-link>
         </div>
       </div>
     </transition>
