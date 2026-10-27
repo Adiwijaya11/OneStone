@@ -53,28 +53,28 @@ const rates = [
 </script>
 
 <template>
-  <section id="futsal" class="scroll-mt-20 sm:scroll-mt-24 py-16 sm:py-24 bg-white border-t border-gray-100">
+  <section id="futsal" class="scroll-mt-20 sm:scroll-mt-24 py-12 sm:py-24 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header: Bersih, Tegas, Tanpa Hiasan Alay -->
-      <div class="max-w-3xl mb-12 sm:mb-16 space-y-3">
+      <div class="max-w-3xl mb-10 sm:mb-16 space-y-3">
         <div class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-gray-500 font-semibold font-body">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
           <span>Fasilitas Futsal One Stone</span>
         </div>
 
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-950 font-heading tracking-tight leading-tight">
+        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-950 font-heading tracking-tight leading-tight">
           Lapangan Futsal Standar Kompetisi di Tegallalang.
         </h2>
 
-        <p class="text-base sm:text-lg text-gray-600 font-body leading-relaxed max-w-2xl">
+        <p class="text-sm sm:text-lg text-gray-600 font-body leading-relaxed max-w-2xl">
           Dua lapangan rumput sintetis berkualitas di Sebatu dengan udara perbukitan sejuk, pencahayaan LED malam terang, dan fasilitas tanding lengkap.
         </p>
 
         <div class="pt-2">
           <router-link
             to="/futsal"
-            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-950 hover:bg-black text-white text-xs font-semibold transition-all shadow-xs active:scale-98"
+            class="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gray-950 hover:bg-black text-white text-xs font-semibold transition-all shadow-xs active:scale-98"
           >
             <span>Buka Halaman Lapangan & Cek Jadwal Lengkap</span>
             <ArrowRight class="w-3.5 h-3.5" />
@@ -83,18 +83,18 @@ const rates = [
       </div>
 
       <!-- Grid Keunggulan Fasilitas (4 Kolom Sederhana & Fungsional) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-5 mb-10 sm:mb-14">
         <div
           v-for="(spec, index) in specs"
           :key="index"
-          class="p-5 sm:p-6 rounded-2xl bg-gray-50/80 border border-gray-200/80 space-y-3 flex flex-col justify-between"
+          class="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-gray-50/80 border border-gray-200/80 space-y-3 flex flex-col justify-between"
         >
-          <div class="space-y-3">
-            <div class="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-900 shadow-2xs">
-              <component :is="spec.icon" class="w-5 h-5 stroke-[1.8]" />
+          <div class="space-y-2.5 sm:space-y-3">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-900 shadow-2xs">
+              <component :is="spec.icon" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.8]" />
             </div>
 
-            <h3 class="text-base font-bold text-gray-950 font-heading">
+            <h3 class="text-sm sm:text-base font-bold text-gray-950 font-heading">
               {{ spec.title }}
             </h3>
 
@@ -106,10 +106,10 @@ const rates = [
       </div>
 
       <!-- Blok Tarif Sewa & Booking -->
-      <div class="rounded-3xl border border-gray-200 bg-gray-50/50 p-6 sm:p-10 lg:p-12 space-y-8">
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-gray-200/80 pb-6">
+      <div class="rounded-2xl sm:rounded-3xl border border-gray-200 bg-gray-50/50 p-4 sm:p-10 lg:p-12 space-y-6 sm:space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 border-b border-gray-200/80 pb-5 sm:pb-6">
           <div class="space-y-1">
-            <h3 class="text-xl sm:text-2xl font-bold text-gray-950 font-heading">
+            <h3 class="text-lg sm:text-2xl font-bold text-gray-950 font-heading">
               Daftar Tarif Sewa Lapangan
             </h3>
             <p class="text-xs sm:text-sm text-gray-600 font-body">
@@ -124,12 +124,12 @@ const rates = [
         </div>
 
         <!-- 3 Kartu Tarif Sederhana -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-5">
           <div
             v-for="(rate, rIdx) in rates"
             :key="rIdx"
             :class="[
-              'p-6 rounded-2xl border transition-all flex flex-col justify-between space-y-4',
+              'p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-all flex flex-col justify-between space-y-3.5 sm:space-y-4',
               rate.featured
                 ? 'bg-gray-950 text-white border-gray-950 shadow-md'
                 : 'bg-white text-gray-900 border-gray-200'
@@ -149,8 +149,8 @@ const rates = [
                 {{ rate.time }}
               </div>
 
-              <div class="pt-2 flex items-baseline gap-1">
-                <span class="text-3xl font-extrabold font-heading" :class="rate.featured ? 'text-white' : 'text-gray-950'">
+              <div class="pt-1.5 sm:pt-2 flex items-baseline gap-1">
+                <span class="text-2xl sm:text-3xl font-extrabold font-heading" :class="rate.featured ? 'text-white' : 'text-gray-950'">
                   {{ rate.price }}
                 </span>
                 <span class="text-xs" :class="rate.featured ? 'text-gray-300' : 'text-gray-500'">
@@ -158,12 +158,12 @@ const rates = [
                 </span>
               </div>
 
-              <p class="text-xs leading-relaxed pt-2" :class="rate.featured ? 'text-gray-300' : 'text-gray-600'">
+              <p class="text-xs leading-relaxed pt-1.5 sm:pt-2" :class="rate.featured ? 'text-gray-300' : 'text-gray-600'">
                 {{ rate.note }}
               </p>
             </div>
 
-            <div class="pt-4 border-t" :class="rate.featured ? 'border-white/15' : 'border-gray-100'">
+            <div class="pt-3.5 sm:pt-4 border-t" :class="rate.featured ? 'border-white/15' : 'border-gray-100'">
               <a
                 :href="`https://wa.me/6281234567890?text=Halo%20One%20Stone%20Futsal,%20saya%20ingin%20booking%20sesi%20${encodeURIComponent(rate.period)}`"
                 target="_blank"
@@ -183,7 +183,7 @@ const rates = [
         </div>
 
         <!-- Catatan Tambahan & CTA Utama -->
-        <div class="pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-body text-gray-600">
+        <div class="pt-2 sm:pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-body text-gray-600">
           <div class="flex items-center gap-2">
             <Check class="w-4 h-4 text-emerald-600 shrink-0" />
             <span>Gratis parkir kendaraan roda 2 dan roda 4 di area lokasi One Stone.</span>
