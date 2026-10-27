@@ -144,162 +144,51 @@ const rules = [
     <Navbar />
 
     <!-- Main Content -->
-    <main class="flex-grow pb-16">
-      
-      <!-- HERO BANNER: Foto Stadion dengan Overlay Natural (No Black BG) -->
-      <section class="relative min-h-[85svh] sm:min-h-[90svh] flex flex-col justify-between overflow-hidden text-white pt-24 sm:pt-28 pb-10 sm:pb-16 px-4 sm:px-6 lg:px-8">
-        
-        <!-- Background Image – Gambar Penuh, Overlay Ringan & Natural -->
-        <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=2400&q=90"
-            alt="ONE STONE Futsal Arena Sebatu"
-            class="w-full h-full object-cover scale-105 animate-kenburns"
-          />
-          <!-- Overlay tipis – cukup untuk kontras teks, gambar tetap terlihat -->
-          <div class="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-900/55 to-gray-800/30"></div>
-          <!-- Subtle left-side darkening for text legibility -->
-          <div class="absolute inset-0 bg-gradient-to-r from-gray-950/60 via-transparent to-transparent"></div>
-        </div>
+    <main class="flex-grow">
 
-        <!-- Breadcrumb -->
-        <div class="relative z-10 max-w-7xl mx-auto w-full">
-          <nav class="inline-flex items-center gap-1.5 text-xs text-white/80 bg-black/20 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20">
-            <router-link to="/" class="hover:text-white transition-colors">Beranda</router-link>
-            <ChevronRight class="w-3 h-3 text-white/40" />
-            <span class="text-white font-semibold">Arena Futsal & Lapangan</span>
+      <!-- Page Heading – Clean & Minimal -->
+      <section class="bg-white pt-28 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6 lg:px-8 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto">
+
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-1.5 text-xs text-gray-500 font-medium mb-4">
+            <router-link to="/" class="hover:text-gray-900 transition-colors">Beranda</router-link>
+            <ChevronRight class="w-3.5 h-3.5 text-gray-400" />
+            <span class="text-gray-900 font-semibold">Arena Futsal & Lapangan</span>
           </nav>
-        </div>
 
-        <!-- Hero Content Grid -->
-        <div class="relative z-10 max-w-7xl mx-auto w-full flex-grow flex items-end py-8 sm:py-10">
-          <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-end">
-            
-            <!-- Kolom Kiri: Teks Utama -->
-            <div class="lg:col-span-7 space-y-4 sm:space-y-5">
-              
-              <!-- Live Status Badge -->
-              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/25 border border-emerald-400/40 text-emerald-300 text-xs font-semibold backdrop-blur-sm">
-                <span class="relative flex h-2 w-2 shrink-0">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                <span>2 Lapangan Aktif &bull; Sebatu, Tegallalang, Gianyar</span>
+          <!-- Heading -->
+          <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <div class="space-y-1.5">
+              <div class="inline-flex items-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-3 py-1 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>2 Lapangan Aktif — Sebatu, Tegallalang</span>
               </div>
-
-              <!-- Headline -->
-              <h1 class="text-3xl xs:text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-6xl font-extrabold text-white font-heading tracking-tight leading-[1.08] drop-shadow-md">
-                Arena Futsal Standar Kompetisi.
+              <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-950 font-heading tracking-tight leading-tight">
+                Arena Futsal ONE STONE
               </h1>
-
-              <!-- Deskripsi -->
-              <p class="text-sm sm:text-base lg:text-lg text-white/80 font-body leading-relaxed max-w-xl">
-                Dua lapangan rumput sintetis premium di Sebatu, Tegallalang. Udara pegunungan segar, penerangan LED stadium, dan fasilitas pertandingan profesional.
+              <p class="text-sm text-gray-500 font-body">
+                Buka setiap hari &bull; 08.00 – 23.00 WITA &bull; Mulai Rp 100.000 / jam
               </p>
-
-              <!-- Feature Pills – Wrap rapi di mobile -->
-              <div class="flex flex-wrap gap-2 pt-1">
-                <span class="inline-flex items-center gap-1.5 text-xs text-white/90 bg-black/25 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/20">
-                  <Trophy class="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span>Monofilament 50mm</span>
-                </span>
-                <span class="inline-flex items-center gap-1.5 text-xs text-white/90 bg-black/25 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/20">
-                  <Lightbulb class="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span>LED Floodlight Stadium</span>
-                </span>
-                <span class="inline-flex items-center gap-1.5 text-xs text-white/90 bg-black/25 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/20">
-                  <ShieldCheck class="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span>Tribun & Papan Skor</span>
-                </span>
-                <span class="inline-flex items-center gap-1.5 text-xs text-white/90 bg-black/25 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/20">
-                  <Shirt class="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span>Gratis Rompi & Bola</span>
-                </span>
-              </div>
-
-              <!-- CTA Buttons -->
-              <div class="pt-2 flex flex-wrap gap-3">
-                <a
-                  href="#daftar-lapangan"
-                  class="inline-flex items-center gap-2 bg-white text-gray-950 hover:bg-slate-100 text-xs sm:text-sm font-bold px-5 py-3 rounded-full transition-all duration-200 active:scale-95 shadow-lg"
-                >
-                  <span>Lihat Pilihan Lapangan</span>
-                  <ArrowRight class="w-4 h-4" />
-                </a>
-                <a
-                  href="#jadwal"
-                  class="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 text-white text-xs sm:text-sm font-semibold px-5 py-3 rounded-full border border-white/30 backdrop-blur-sm transition-all duration-200 active:scale-95"
-                >
-                  <Clock class="w-4 h-4 text-emerald-400" />
-                  <span>Cek Jadwal Hari Ini</span>
-                </a>
-              </div>
             </div>
 
-            <!-- Kolom Kanan: Info Card – hidden di mobile kecil, muncul di lg -->
-            <div class="lg:col-span-5 hidden lg:block">
-              <div class="bg-white/12 border border-white/25 backdrop-blur-xl rounded-3xl p-6 space-y-4 shadow-2xl">
-                <div class="flex items-center justify-between">
-                  <span class="flex items-center gap-1.5 text-xs text-white/70 uppercase tracking-wider font-semibold">
-                    <Clock class="w-3.5 h-3.5 text-emerald-400" />
-                    Jam Operasional
-                  </span>
-                  <span class="bg-emerald-500/25 text-emerald-300 border border-emerald-400/35 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide">
-                    Setiap Hari
-                  </span>
-                </div>
-
-                <div>
-                  <div class="flex items-baseline gap-2">
-                    <span class="text-2xl xl:text-3xl font-extrabold text-white font-heading">08.00 - 23.00</span>
-                    <span class="text-xs text-white/60">WITA</span>
-                  </div>
-                  <p class="text-xs text-white/60 mt-1.5 leading-relaxed">
-                    Booking via WhatsApp admin untuk reservasi slot harian maupun jadwal mingguan rutin.
-                  </p>
-                </div>
-
-                <div class="flex items-center justify-between text-xs pt-1 border-t border-white/15">
-                  <span class="text-white/60">Tarif Mulai</span>
-                  <span class="font-bold text-white">Rp 100.000 <span class="text-white/50 font-normal">/ jam</span></span>
-                </div>
-
-                <a
-                  href="https://wa.me/6281234567890?text=Halo%20ONE%20STONE%20Sebatu,%20saya%20ingin%20cek%20ketersediaan%20lapangan%20futsal"
-                  target="_blank"
-                  rel="noopener"
-                  class="w-full inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-gray-950 text-sm font-bold py-3 px-4 rounded-xl transition-all shadow-md active:scale-98"
-                >
-                  <Phone class="w-4 h-4" />
-                  <span>WhatsApp: (0361) 972566</span>
-                </a>
-              </div>
-            </div>
-
+            <!-- Fast Booking CTA -->
+            <a
+              href="https://wa.me/6281234567890?text=Halo%20ONE%20STONE%20Sebatu,%20saya%20ingin%20cek%20ketersediaan%20lapangan%20futsal"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 bg-gray-950 hover:bg-black text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-full transition-all active:scale-95 shadow-xs shrink-0 self-start sm:self-auto"
+            >
+              <Phone class="w-4 h-4 text-emerald-400" />
+              <span>Booking via WhatsApp</span>
+            </a>
           </div>
+
         </div>
-
-        <!-- Bottom Feature Bar (mobile + desktop) -->
-        <div class="relative z-10 max-w-7xl mx-auto w-full pt-6 mt-auto border-t border-white/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-white/55">
-          <div class="flex items-center gap-2">
-            <MapPin class="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span>Jl. Raya Bilukan, Sebatu, Tegallalang, Gianyar, Bali</span>
-          </div>
-          <div class="hidden sm:flex items-center gap-3">
-            <span>2 Arena Kompetisi</span>
-            <span class="text-white/30">•</span>
-            <span>Parkir Luas Gratis</span>
-            <span class="text-white/30">•</span>
-            <span>Carwash On-Site</span>
-          </div>
-        </div>
-
       </section>
 
       <!-- Section: Daftar Lapangan Yang Tersedia -->
-      <section id="daftar-lapangan" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
-        
-        <!-- Filter Tabs -->
+      <section id="daftar-lapangan" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <h2 class="text-2xl sm:text-3xl font-bold text-gray-950 font-heading tracking-tight">
