@@ -60,7 +60,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="relative min-h-[100svh] h-auto lg:h-[100svh] w-full flex flex-col justify-between overflow-x-hidden bg-black text-white select-none pt-20 sm:pt-28 pb-6 sm:pb-10 px-4 sm:px-6 lg:px-12 gap-6 lg:gap-0">
+  <section class="relative min-h-[100svh] h-auto lg:h-[100svh] w-full flex flex-col justify-between overflow-x-hidden bg-black text-white select-none pt-20 sm:pt-28 pb-5 sm:pb-8 px-4 sm:px-6 lg:px-12 gap-5 lg:gap-0">
     
     <!-- 1. LATAR BELAKANG GAMBAR PENUH DENGAN ANIMASI KEN BURNS & CROSSFADE HALUS -->
     <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
@@ -83,13 +83,13 @@ onUnmounted(() => {
       </div>
 
       <!-- Lapisan Gradien Sinematik Gelap (Menjaga Foto Hidup & Teks Kontras Sangat Tajam) -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/30 z-2"></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-2 hidden lg:block"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/35 z-2"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent z-2 hidden lg:block"></div>
     </div>
 
     <!-- 2. STATUS OPERASIONAL TOP BAR -->
     <div class="relative z-10 flex items-center justify-between w-full max-w-7xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-xs text-slate-200">
+      <div class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-xs text-slate-200">
         <span class="relative flex h-2 w-2">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
           <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -99,38 +99,60 @@ onUnmounted(() => {
         </span>
       </div>
 
-      <div class="hidden sm:flex items-center gap-2 text-xs text-white/70 font-mono tracking-wider">
+      <div class="flex items-center gap-2 text-xs text-white/70 font-mono tracking-wider">
         <span>0{{ currentIndex + 1 }}</span>
-        <span class="w-8 h-px bg-white/30"></span>
+        <span class="w-6 sm:w-8 h-px bg-white/30"></span>
         <span>0{{ slides.length }}</span>
       </div>
     </div>
 
     <!-- 3. KONTEN UTAMA: TIPOGRAFI ARSITEKTURAL BOLD & MODERN -->
-    <div class="relative z-10 w-full max-w-7xl mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-end py-4 lg:py-0">
+    <div class="relative z-10 w-full max-w-7xl mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-end py-2 sm:py-4 lg:py-0">
       
       <!-- Kolom Teks Kiri -->
-      <div class="lg:col-span-8 space-y-4 sm:space-y-6">
+      <div class="lg:col-span-8 space-y-3.5 sm:space-y-5">
         
-        <!-- Eyebrow Badge Transisi -->
-        <div class="overflow-hidden">
+        <!-- Mobile Slide Switcher (Clean, Space-Saving Pills on Mobile) -->
+        <div class="flex lg:hidden items-center gap-2">
+          <button
+            v-for="(slide, index) in slides"
+            :key="slide.id"
+            type="button"
+            @click="setSlide(index)"
+            :class="[
+              'px-3 py-1 rounded-full text-[11px] font-semibold transition-all flex items-center gap-1.5 border',
+              currentIndex === index
+                ? 'bg-white text-gray-950 border-white shadow-xs'
+                : 'bg-black/40 text-white/75 border-white/15 hover:bg-black/60'
+            ]"
+          >
+            <span
+              class="w-1.5 h-1.5 rounded-full"
+              :class="currentIndex === index ? 'bg-emerald-500' : 'bg-white/40'"
+            ></span>
+            <span>{{ slide.id === 'futsal' ? 'Futsal Arena' : 'Carwash Detailing' }}</span>
+          </button>
+        </div>
+
+        <!-- Eyebrow Badge (Desktop) -->
+        <div class="hidden lg:block overflow-hidden">
           <p
             :key="slides[currentIndex].id"
-            class="text-[11px] sm:text-sm font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-emerald-400 font-mono animate-in fade-in slide-in-from-bottom-2 duration-300"
+            class="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-emerald-400 font-mono animate-in fade-in slide-in-from-bottom-2 duration-300"
           >
             {{ slides[currentIndex].badge }}
           </p>
         </div>
 
-        <!-- Headline Utama yang Berkarakter & Menarik -->
+        <!-- Headline Utama -->
         <h1
           :key="slides[currentIndex].id"
-          class="text-3xl sm:text-5xl lg:text-7xl font-extrabold text-white font-heading leading-[1.1] sm:leading-[1.05] tracking-tight max-w-3xl drop-shadow-sm animate-in fade-in slide-in-from-bottom-3 duration-500"
+          class="text-2xl min-[380px]:text-3xl sm:text-5xl lg:text-7xl font-extrabold text-white font-heading leading-[1.15] sm:leading-[1.05] tracking-tight max-w-3xl drop-shadow-sm animate-in fade-in slide-in-from-bottom-3 duration-500"
         >
           {{ slides[currentIndex].headline }}
         </h1>
 
-        <!-- Deskripsi Singkat & Bermutu -->
+        <!-- Deskripsi Singkat -->
         <p
           :key="slides[currentIndex].id"
           class="text-xs sm:text-base lg:text-lg text-slate-200/90 font-body leading-relaxed max-w-xl font-normal drop-shadow-xs animate-in fade-in slide-in-from-bottom-4 duration-500"
@@ -139,7 +161,7 @@ onUnmounted(() => {
         </p>
 
         <!-- Poin Fasilitas Cepat -->
-        <div class="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
+        <div class="flex flex-wrap gap-1.5 sm:gap-2 pt-0.5">
           <span
             v-for="(item, idx) in slides[currentIndex].highlights"
             :key="idx"
@@ -172,45 +194,45 @@ onUnmounted(() => {
 
           <a
             href="tel:+62361972566"
-            class="inline-flex items-center justify-center gap-2 bg-white/15 hover:bg-white/25 text-white text-xs sm:text-sm font-semibold px-5 sm:px-6 py-3 sm:py-3.5 rounded-full border border-white/20 backdrop-blur-md transition-all duration-200 active:scale-95 font-body"
+            class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-medium px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-full border border-white/15 backdrop-blur-md transition-all duration-200 active:scale-95 font-body"
           >
-            <Phone class="w-4 h-4" />
+            <Phone class="w-3.5 h-3.5 text-emerald-400" />
             <span>Hubungi (0361) 972566</span>
           </a>
         </div>
       </div>
 
-      <!-- Kolom Kanan: Pengendali Slide Interaktif (*Interactive Floating Cards*) -->
-      <div class="lg:col-span-4 flex lg:flex-col gap-2.5 sm:gap-3 justify-end">
+      <!-- Kolom Kanan: Pengendali Slide Interaktif (Desktop Only: Clean Floating Cards) -->
+      <div class="hidden lg:flex lg:col-span-4 flex-col gap-3 justify-end">
         <button
           v-for="(slide, index) in slides"
           :key="slide.id"
           type="button"
           @click="setSlide(index)"
           :class="[
-            'text-left p-3 sm:p-4 rounded-xl sm:rounded-2xl border transition-all duration-300 backdrop-blur-md flex-1 lg:flex-none cursor-pointer group',
+            'text-left p-4 rounded-2xl border transition-all duration-300 backdrop-blur-md cursor-pointer group',
             currentIndex === index
               ? 'bg-white/20 border-white/50 shadow-xl scale-[1.02]'
               : 'bg-black/40 border-white/15 hover:bg-black/60 opacity-70 hover:opacity-100'
           ]"
         >
-          <div class="flex items-center justify-between mb-1">
-            <span class="text-[9px] sm:text-[10px] font-mono tracking-widest text-emerald-300 uppercase font-semibold">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[10px] font-mono tracking-widest text-emerald-300 uppercase font-semibold">
               0{{ index + 1 }} &bull; {{ slide.tag }}
             </span>
             <ChevronRight
               :class="[
-                'w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform text-white/80',
+                'w-4 h-4 transition-transform text-white/80',
                 currentIndex === index ? 'translate-x-1 text-white' : 'group-hover:translate-x-0.5'
               ]"
             />
           </div>
-          <h4 class="text-xs sm:text-sm font-bold text-white font-heading truncate">
+          <h4 class="text-sm font-bold text-white font-heading truncate">
             {{ slide.headline }}
           </h4>
           
           <!-- Animated Progress Line -->
-          <div class="w-full bg-white/20 h-1 rounded-full mt-2 sm:mt-2.5 overflow-hidden">
+          <div class="w-full bg-white/20 h-1 rounded-full mt-2.5 overflow-hidden">
             <div
               :class="[
                 'h-full bg-white transition-all',
@@ -224,18 +246,18 @@ onUnmounted(() => {
     </div>
 
     <!-- 4. LOKASI FOOTER BARIS MINIMALIS -->
-    <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-3 text-[11px] sm:text-xs text-white/60 font-body border-t border-white/15 pt-3 sm:pt-4">
-      <div class="flex items-center gap-1.5">
-        <MapPin class="w-3.5 h-3.5 text-white/80 shrink-0" />
-        <span>Jl. Raya Bilukan, Desa Sebatu, Kec. Tegallalang, Gianyar, Bali 80561</span>
+    <div class="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between gap-3 text-[11px] sm:text-xs text-white/70 font-body border-t border-white/15 pt-3 sm:pt-4">
+      <div class="flex items-center gap-1.5 text-white/80">
+        <MapPin class="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+        <span class="truncate">Sebatu, Kec. Tegallalang, Gianyar, Bali</span>
       </div>
 
-      <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+      <div class="hidden sm:flex items-center gap-4 text-white/60">
         <span class="inline-flex items-center gap-1.5">
           <Trophy class="w-3.5 h-3.5 text-white/80" />
           <span>2 Lapangan Rumput Sintetis</span>
         </span>
-        <span class="hidden sm:inline">&bull;</span>
+        <span>&bull;</span>
         <span class="inline-flex items-center gap-1.5">
           <Car class="w-3.5 h-3.5 text-white/80" />
           <span>Cuci Mobil & Motor Hidrolik</span>
